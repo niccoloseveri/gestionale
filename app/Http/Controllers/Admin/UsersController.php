@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -56,6 +57,20 @@ class UsersController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
+    public function create(){
+        $roles = Role::all();
+        return view('admin.users.register')->with('roles',$roles);
+    }
+    public function store(Request $request){
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+        $user->roles()->sync($request->roles);
+        return redirect()->route('admin.users.index')->with('success','Utente Creato');
+
+    }
     public function update(Request $request, User $user)
     {
         $user->name = $request->input('name');

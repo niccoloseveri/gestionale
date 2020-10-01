@@ -43,11 +43,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
+                            @can('manage-users')
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+                            @endcan
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -64,6 +66,8 @@
                                 <a class="dropdown-item" href="{{route('admin.users.index')}}">
                                     Gestione Utenti
                                 </a>
+                                    <a class="dropdown-item" href="{{ route('admin.users.create') }}">{{ __('Registra Utente') }}</a>
+
                                 @endcan
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
