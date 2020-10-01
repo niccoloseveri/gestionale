@@ -82,6 +82,11 @@ class HomeController extends Controller
     }
     public function update(Request $request, Articles $article){
 
+        $article->title = $request->title;
+        $article->topic = $request->topic;
+        $article->data_p = date($request->data_p);
+        $article->ora_p = date($request->ora_p);
+        $article->save();
         $article->users()->sync($request->author);
         return redirect()->route('articles.index');
     }
