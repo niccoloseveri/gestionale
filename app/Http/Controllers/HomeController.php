@@ -42,13 +42,13 @@ class HomeController extends Controller
         $users=User::all();
         return view('createArticle')->with('users',$users);
     }
-    public function store(Request $request ){
-        $users=User::all();
+    public function store(Request $request){
+       // $user=Auth::user();
         $this->validate($request,[
 
             'title'=>'required',
             'topic' =>'required',
-            'author'=>'required',
+           // 'author'=>'required',
             'data_p' => 'required',
             'ora_p' =>'required'
 
@@ -61,6 +61,7 @@ class HomeController extends Controller
         $article->data_p = $request->input('data_p');
         $article->ora_p = $request->input('ora_p');
         $article->save();
+
         $article->users()->sync($request->author);
 
         return redirect()->route('articles.index');

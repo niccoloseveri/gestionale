@@ -32,18 +32,19 @@
                                 @enderror
                             </div>
                         </div>
-                        @can('select-users')
+
                         <div class="form-group row">
                             <label for="author" class="col-md-4 col-form-label text-md-right">Autore</label>
                             <div class="col-md-6">
-                                <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author">
+                                <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" @if(!(Auth::user()->hasRole('admin'))) disabled @endif>
+
                                     @foreach ($users as $user)
-                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                        <option value="{{$user->id}}" @if(Auth::id()==$user->id) selected @endif @if(!(Auth::user()->hasRole('admin'))) disabled @endif) >{{$user->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        @endcan
+
 
                         <div class="form-group row">
                             <label for="data_p" class="col-md-4 col-form-label text-md-right">Data Pubblicazione</label>
