@@ -39,7 +39,7 @@
                                 <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" @if(!(Auth::user()->hasRole('admin'))) disabled @endif>
 
                                     @foreach ($users as $user)
-                                        <option value="{{$user->id}}" @if(Auth::id()==$user->id) selected @endif @if(!(Auth::user()->hasRole('admin'))) disabled @endif) >{{$user->name}}</option>
+                                        <option value="{{$user->id}}" @if(Auth::id()==$user->id) selected @endif >{{$user->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
