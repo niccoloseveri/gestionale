@@ -76,9 +76,11 @@ class HomeController extends Controller
     public function edit(Articles $article){
         //
         $users=User::all();
+        $topics=TOpic::all();
         return view('editArticle')->with([
             'articles'=>$article,
-            'users'=>$users
+            'users'=>$users,
+            'topics'=>$topics,
         ]);
     }
     public function destroy(Articles $article)
@@ -90,10 +92,14 @@ class HomeController extends Controller
     public function update(Request $request, Articles $article){
 
         $article->title = $request->title;
-        $article->topic = $request->topic;
         $article->data_p = date($request->data_p);
         $article->ora_p = date($request->ora_p);
         $article->save();
+        if($request->topic=='other'){
+            $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
+        }else{
+            $article->topic()->sync($request->topic);
+        }
         $article->users()->sync($request->author);
         return redirect()->route('articles.index');
     }
