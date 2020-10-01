@@ -9,7 +9,7 @@
                     <a href="{{route('articles.create')}}"><button class="btn btn-success float-right">Inserisci Articolo</button></a>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                           <tr>

@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Gestione Utenti') }}</div>
 
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                           <tr>
