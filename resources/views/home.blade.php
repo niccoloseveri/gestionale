@@ -28,7 +28,7 @@
                                 <td>{{$article->title}}</td>
                                 <td>{{$article->topic}}</td>
                             <td>{{implode(',',$article->users()->get()->pluck('name')->toArray())}}</td>
-                                <td>{{$article->pubblicazione}}</td>
+                                <td>{{$article->data_p}} {{$article->ora_p}}</td>
                                 <td>
                                 <a href="{{ route('articles.edit',$article->id) }}"> <button type="button" class="btn btn-light float-left">Modifica</button></a>
                                 <form action="{{route('articles.destroy', $article)}}" method="POST">

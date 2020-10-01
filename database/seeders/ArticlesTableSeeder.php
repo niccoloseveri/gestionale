@@ -22,7 +22,8 @@ class ArticlesTableSeeder extends Seeder
         $article = Articles::create([
             'title'=>'prova',
             'topic'=>'prova',
-            'pubblicazione'=>date('2020-08-10'),
+            'data_p'=>date('2020-10-10'),
+            'ora_p'=>date('H:m:s',$timestamps=time()),
         ]);
         $article->users()->attach($authorUser);
 

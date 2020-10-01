@@ -17,8 +17,8 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('topic');
-
-            $table->date('pubblicazione');
+            $table->date('data_p');
+            $table->time('ora_p');
             $table->timestamps();
         });
     }

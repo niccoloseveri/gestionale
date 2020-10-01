@@ -45,6 +45,7 @@ class HomeController extends Controller
     public function store(Request $request ){
         $users=User::all();
         $this->validate($request,[
+
             'title'=>'required',
             'topic' =>'required',
             'author'=>'required',
@@ -52,18 +53,15 @@ class HomeController extends Controller
             'ora_p' =>'required'
 
         ]);
-        $data=date($request->input('data_p'));
-        $ora=$request->input('ora_p');
 
         $article=new Articles;
 
         $article->title = $request->input('title');
         $article->topic = $request->input('topic');
-        $article->author()->sync($request->users);
-        $article->pubblicazione = $data.' '.$ora;
-
+        $article->data_p = $request->input('data_p');
+        $article->ora_p = $request->input('ora_p');
         $article->save();
-
+        $article->users()->sync($request->author);
 
         return redirect()->route('articles.index');
     }
@@ -83,7 +81,8 @@ class HomeController extends Controller
         return redirect()->route('articles.index');
     }
     public function update(Request $request, Articles $article){
-        $article->users()->sync($request->users);
+
+        $article->users()->sync($request->author);
         return redirect()->route('articles.index');
     }
 

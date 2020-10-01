@@ -14,7 +14,7 @@
                     <div class="form-group row">
                         <label for="title" class="col-md-4 col-form-label text-md-right">Titolo</label>
                         <div class="col-md-6">
-                            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $articles->title }}">
+                            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}">
                             @error('title')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -25,7 +25,7 @@
                     <div class="form-group row">
                         <label for="topic" class="col-md-4 col-form-label text-md-right">Argomento</label>
                         <div class="col-md-6">
-                            <input id="topic" type="text" class="form-control @error('topic') is-invalid @enderror" name="topic" value="{{ $articles->topic }}">
+                            <input id="topic" type="text" class="form-control @error('topic') is-invalid @enderror" name="topic" value="{{ old('topic') }}">
                             @error('topic')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
