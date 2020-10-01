@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articles;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
@@ -40,14 +41,15 @@ class HomeController extends Controller
     }
     public function create(){
         $users=User::all();
-        return view('createArticle')->with('users',$users);
+        $topics=Topic::all();
+        return view('createArticle')->with('users',$users)->with('topics', $topics);
     }
     public function store(Request $request){
        // $user=Auth::user();
         $this->validate($request,[
 
             'title'=>'required',
-            'topic' =>'required',
+           // 'topic' =>'required',
            // 'author'=>'required',
             'data_p' => 'required',
             'ora_p' =>'required'
@@ -57,11 +59,15 @@ class HomeController extends Controller
         $article=new Articles;
 
         $article->title = $request->input('title');
-        $article->topic = $request->input('topic');
+        //$article->topic = $request->input('topic');
         $article->data_p = $request->input('data_p');
         $article->ora_p = $request->input('ora_p');
         $article->save();
-
+        if($request->topic=='other'){
+        $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
+        }else{
+        $article->topic()->sync($request->topic);
+        }
         $article->users()->sync($request->author);
 
         return redirect()->route('articles.index');

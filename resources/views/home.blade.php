@@ -26,7 +26,7 @@
                             <tr>
                                 <th scope="row">{{$article->id}}</th>
                                 <td>{{$article->title}}</td>
-                                <td>{{$article->topic}}</td>
+                                <td>{{implode(',',$article->topic()->get()->pluck('name')->toArray())}}</td>
                             <td>{{implode(',',$article->users()->get()->pluck('name')->toArray())}}</td>
                                 <td>{{$article->data_p}} {{$article->ora_p}}</td>
                                 <td>

@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript">
+    function showOther(that){
+        if(that.value=='other'){
+            document.getElementById('o_topic').style.visibility = "visible";
+        }else document.getElementById('o_topic').style.visibility = "hidden";
+    }
+</script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -24,18 +31,24 @@
                         <div class="form-group row">
                             <label for="topic" class="col-md-4 col-form-label text-md-right">Argomento</label>
                             <div class="col-md-6">
-                                <input id="topic" type="text" class="form-control @error('topic') is-invalid @enderror" name="topic" value="{{ old('topic') }}">
+                                <select id="topic" onchange="showOther(this)" type="text" class="form-control @error('topic') is-invalid @enderror" name="topic">
                                 @error('topic')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                @foreach($topics as $topic)
+                                <option id="{{$topic->name}}" value="{{$topic->id}}">{{$topic->name}}</option>
+                                @endforeach
+                                <option id="other" value="other">Altro</option>
+                                </select>
+                                <input class="form-control" type="text" id="o_topic" name="o_topic" style=" margin-top:0.5em; visibility: hidden"/>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="author" class="col-md-4 col-form-label text-md-right">Autore</label>
-                            <div class="col-md-6">
+                            <div class="col-md-6 ">
                                 <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" @if(!(Auth::user()->hasRole('admin'))) disabled @endif>
 
                                     @foreach ($users as $user)

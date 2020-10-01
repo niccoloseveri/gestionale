@@ -21,7 +21,7 @@ class ArticlesTableSeeder extends Seeder
         $authorUser=User::where('name','author')->first();
         $article = Articles::create([
             'title'=>'prova',
-            'topic'=>'prova',
+            //'topic'=>'prova',
             'data_p'=>date('2020-10-10'),
             'ora_p'=>date('H:m:s',$timestamps=time()),
         ]);
