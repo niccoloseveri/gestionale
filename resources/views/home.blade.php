@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Articoli') }}</div>
+                <div class="card-header">{{ __('Articoli') }}
+                    <a href="{{route('articles.create')}}"><button class="btn btn-success float-right">Inserisci Articolo</button></a>
+                </div>
 
                 <div class="card-body">
                     <table class="table">
@@ -14,7 +16,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Titolo</th>
                             <th scope="col">Argomento</th>
-                           <!-- <th scope="col">Autore</th>-->
+                            <th scope="col">Autore</th>
                             <th scope="col">Data pubblicazione</th>
                             <th scope="col">Azioni</th>
                           </tr>
@@ -25,6 +27,7 @@
                                 <th scope="row">{{$article->id}}</th>
                                 <td>{{$article->title}}</td>
                                 <td>{{$article->topic}}</td>
+                            <td>{{implode(',',$article->users()->get()->pluck('name')->toArray())}}</td>
                                 <td>{{$article->pubblicazione}}</td>
                                 <td>
                                 <a href="{{ route('articles.edit',$article->id) }}"> <button type="button" class="btn btn-light float-left">Modifica</button></a>
@@ -42,7 +45,6 @@
 
                 </div>
                 <div class="card-footer text-muted">
-               <a href="{{route('articles.create')}}"><button class="btn btn-success float-right">Inserisci Articolo</button></a>
                   </div>
             </div>
         </div>

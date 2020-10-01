@@ -51,6 +51,12 @@
                                 <input type="date" name="data_p" class="form-control"/>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="ora_p" class="col-md-4 col-form-label text-md-right">Ora Pubblicazione</label>
+                            <div class="col-md-6">
+                                <input type="time" name="ora_p" class="form-control"/>
+                            </div>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

@@ -13,10 +13,10 @@ class CreateArticlesUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles_users', function (Blueprint $table) {
+        Schema::create('articles_user', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('article_id');
+            $table->integer('articles_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateArticlesUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles_users');
+        Schema::dropIfExists('articles_user');
     }
 }

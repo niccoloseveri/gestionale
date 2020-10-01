@@ -45,7 +45,7 @@ class User extends Authenticatable
         return $this->belongsToMany('\App\Models\Role');
     }
     public function articles(){
-        return $this->belongsToMany('App\Models\Article');
+        return $this->belongsToMany('App\Models\Articles');
     }
 
     public function hasAnyRoles($roles){

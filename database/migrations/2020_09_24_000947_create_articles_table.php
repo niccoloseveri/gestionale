@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('topic');
-            $table->string('user_id');
+
             $table->date('pubblicazione');
             $table->timestamps();
         });
