@@ -43,11 +43,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
+                            @can('manage-users')
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+                            @endcan
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -55,16 +57,20 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{route('articles.index')}}">{{__('Gestione Articoli')}}</a>
+                                @can('manage-users')
+                                <a class="dropdown-item" href="{{ route('topics.index') }}">{{ __('Gestione Argomenti') }}</a>
+                                <a class="dropdown-item" href="{{route('admin.users.index')}}">
+                                    Gestione Utenti
+                                </a>
+                                    <a class="dropdown-item" href="{{ route('admin.users.create') }}">{{ __('Registra Utente') }}</a>
+
+                                @endcan
+                                <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                @can('manage-users')
-                                <a class="dropdown-item" href="{{route('admin.users.index')}}">
-                                    Gestione Utenti
-                                </a>
-                                @endcan
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

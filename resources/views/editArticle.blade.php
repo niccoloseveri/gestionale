@@ -12,15 +12,15 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Nuovo Articolo') }}
+                <div class="card-header">{{ __('Modifica Articolo') }} {{$articles->title}}
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{route('articles.store')}}">
-                        @csrf
+                    <form method="POST" action="{{route('articles.update',$articles)}}">
+
                         <div class="form-group row">
                             <label for="title" class="col-md-4 col-form-label text-md-right">Titolo</label>
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}">
+                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $articles->title }}">
                                 @error('title')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -45,7 +45,8 @@
                                 <input class="form-control" type="text" id="o_topic" name="o_topic" style=" margin-top:0.5em; visibility: hidden"/>
                             </div>
                         </div>
-
+                        @csrf
+                        {{method_field('PUT')}}
                         <div class="form-group row">
                             <label for="author" class="col-md-4 col-form-label text-md-right">Autore</label>
                             <div class="col-md-6 ">
@@ -62,13 +63,13 @@
                         <div class="form-group row">
                             <label for="data_p" class="col-md-4 col-form-label text-md-right">Data Pubblicazione</label>
                             <div class="col-md-6">
-                                <input type="date" name="data_p" class="form-control"/>
+                            <input type="date" name="data_p" class="form-control" value="{{date($articles->data_p)}}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="ora_p" class="col-md-4 col-form-label text-md-right">Ora Pubblicazione</label>
                             <div class="col-md-6">
-                                <input type="time" name="ora_p" class="form-control"/>
+                            <input type="time" name="ora_p" class="form-control" value="{{date($articles->ora_p)}}"/>
                             </div>
                         </div>
                         <div class="form-group row mb-0">

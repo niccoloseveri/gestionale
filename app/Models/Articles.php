@@ -10,6 +10,9 @@ class Articles extends Model
     use HasFactory;
 
     public function users(){
-        return $this->belongsToMany('App\Models\Users');
+        return $this->belongsToMany('App\Models\User');
+    }
+    public function topic(){
+        return $this->belongsToMany('App\Models\Topic');
     }
 }

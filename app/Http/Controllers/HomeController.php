@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articles;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Traits\Timestamp;
+use Faker\Provider\DateTime;
 use Gate;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,18 +41,70 @@ class HomeController extends Controller
     }
     public function create(){
         $users=User::all();
-        return view('createArticle')->with('users',$users);
+        $topics=Topic::all();
+        return view('createArticle')->with('users',$users)->with('topics', $topics);
     }
-    public function store(){
-        $users=User::all();
-        return view('createArticle')->with('users',$users);
+    public function store(Request $request){
+       // $user=Auth::user();
+        $this->validate($request,[
+
+            'title'=>'required',
+           // 'topic' =>'required',
+           // 'author'=>'required',
+            'data_p' => 'required',
+            'ora_p' =>'required'
+
+        ]);
+
+        $article=new Articles;
+
+        $article->title = $request->input('title');
+        //$article->topic = $request->input('topic');
+        $article->data_p = $request->input('data_p');
+        $article->ora_p = $request->input('ora_p');
+        $article->save();
+        if($request->topic=='other'){
+        $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
+        }else{
+        $article->topic()->sync($request->topic);
+        }
+        if($request->author==""){
+            $article->users()->sync(Auth::id());
+        }else{
+        $article->users()->sync($request->author);
+        }
+        return redirect()->route('articles.index');
     }
 
-    public function edit(){
+    public function edit(Articles $article){
         //
+        $users=User::all();
+        $topics=TOpic::all();
+        return view('editArticle')->with([
+            'articles'=>$article,
+            'users'=>$users,
+            'topics'=>$topics,
+        ]);
     }
-    public function destroy()
+    public function destroy(Articles $article)
     {
-        //
+        $article->users()->detach();
+        $article->delete();
+        return redirect()->route('articles.index');
     }
+    public function update(Request $request, Articles $article){
+
+        $article->title = $request->title;
+        $article->data_p = date($request->data_p);
+        $article->ora_p = date($request->ora_p);
+        $article->save();
+        if($request->topic=='other'){
+            $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
+        }else{
+            $article->topic()->sync($request->topic);
+        }
+        $article->users()->sync($request->author);
+        return redirect()->route('articles.index');
+    }
+
 }
