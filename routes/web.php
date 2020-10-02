@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/articles', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/articles', '\App\Http\Controllers\HomeController');
+Route::resource('/topics', '\App\Http\Controllers\TopicController');
 Auth::routes();
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){

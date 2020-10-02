@@ -62,13 +62,19 @@ class UsersController extends Controller
         return view('admin.users.register')->with('roles',$roles);
     }
     public function store(Request $request){
+        $this->validate($request,[
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+
+        ]);
         $user = new User;
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->save();
         $user->roles()->sync($request->roles);
-        return redirect()->route('admin.users.index')->with('success','Utente Creato');
+        return redirect()->route('admin.users.index');
 
     }
     public function update(Request $request, User $user)

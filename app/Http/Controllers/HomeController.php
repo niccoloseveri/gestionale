@@ -68,8 +68,11 @@ class HomeController extends Controller
         }else{
         $article->topic()->sync($request->topic);
         }
+        if($request->author==""){
+            $article->users()->sync(Auth::id());
+        }else{
         $article->users()->sync($request->author);
-
+        }
         return redirect()->route('articles.index');
     }
 

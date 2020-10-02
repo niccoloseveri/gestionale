@@ -12,9 +12,13 @@ class TopicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        $this->middleware('auth');
+    }
     public function index()
     {
-        //
+        $topics = Topic::all();
+        return view('topics.index')->with('topics', $topics);
     }
 
     /**
@@ -24,7 +28,7 @@ class TopicController extends Controller
      */
     public function create()
     {
-        //
+        return view('topics.create');
     }
 
     /**
@@ -35,9 +39,14 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=> ['required', 'max:255'],
+        ]);
+
         $topic = new Topic;
-        $topic->name = $request->input('name');
+        $topic->name = $request->name;
+        $topic->save();
+        return redirect()->route('topics.index');
 
     }
 
@@ -58,9 +67,9 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Topic $topic)
     {
-        //
+        return view('topics.edit')->with('topic',$topic);
     }
 
     /**
@@ -70,9 +79,11 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Topic $topic)
     {
-        //
+        $topic->name = $request->input('name');
+        $topic->save();
+        return redirect()->route('topics.index');
     }
 
     /**
@@ -81,8 +92,10 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Topic $topic)
     {
-        //
+        $topic->article()->detach();
+        $topic->delete();
+        return redirect()->route('topics.index');
     }
 }
