@@ -11,6 +11,8 @@ use Carbon\Traits\Timestamp;
 use Faker\Provider\DateTime;
 use Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use SebastianBergmann\Environment\Console;
 
 class HomeController extends Controller
 {
@@ -36,7 +38,7 @@ class HomeController extends Controller
         }
         else{
             $users=User::all();
-            $articles=Articles::all();
+            $articles=Articles::all()->sortByDesc('created_at');
          return view('home')->with('users',$users)->with('articles',$articles);}
     }
     public function create(){
@@ -95,8 +97,10 @@ class HomeController extends Controller
     public function update(Request $request, Articles $article){
 
         $article->title = $request->title;
-        $article->data_p = date($request->data_p);
-        $article->ora_p = date($request->ora_p);
+        if($request->data_p!='' && $request->ora_p!=''){
+            $article->data_p = date($request->data_p);
+            $article->ora_p = date($request->ora_p);
+        }
         $article->save();
         if($request->topic=='other'){
             $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
@@ -105,6 +109,25 @@ class HomeController extends Controller
         }
         $article->users()->sync($request->author);
         return redirect()->route('articles.index');
+    }
+
+    public function search (){
+        /*$request->get('searchQ');
+        $articles= DB::table('articles')->where('articles.title','like','%'.$request->get('searchQ').'%')
+        ->leftJoin('articles_topic','articles.id','articles_topic.articles_id',)->get();
+        return json_encode($articles);*/
+        $users=User::all();
+        $topics=Topic::all();
+            $articles=Articles::leftJoin('articles_topic', 'articles.id','=','articles_topic.articles_id')
+            ->leftJoin('topics','articles_topic.topic_id','topics.id')
+            ->leftJoin('articles_user','articles.id','articles_user.articles_id')
+            ->leftJoin('users','articles_user.user_id','users.id')
+            ->where('t_name','like','%'.$_GET['searchQ'].'%')->orWhere('title','like','%'.$_GET['searchQ'].'%')
+            ->orWhere('name','like','%'.$_GET['searchQ'].'%')->get();
+
+        return view('searchArticles')->with('users',$users)->with('articles',$articles);
+
+
     }
 
 }

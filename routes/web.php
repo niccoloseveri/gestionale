@@ -15,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::redirect('/', '/articles', 301);
+Route::redirect('/home', '/articles', 301);
 Auth::routes();
 
 Route::get('/articles', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('/articles', '\App\Http\Controllers\HomeController');
+Route::resource('/articles', '\App\Http\Controllers\HomeController', ['except'=>['show']]);
+Route::get('/articles/search', ['as'=>'articles.search', 'uses'=>'\App\Http\Controllers\HomeController@search']);
+
 Route::resource('/topics', '\App\Http\Controllers\TopicController');
 Auth::routes();
 

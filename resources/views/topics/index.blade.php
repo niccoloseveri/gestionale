@@ -21,7 +21,7 @@
                             @foreach ($topics as $topic)
                             <tr>
                                 <th scope="row">{{$topic->id}}</th>
-                                <td>{{$topic->name}}</td>
+                                <td><a href="{{route('topics.show',$topic->id)}}">{{$topic->name}}</a></td>
 
                                 <td>
                                 <a href="{{ route('topics.edit',$topic->id) }}"> <button type="button" class="btn btn-light float-left" style="margin-right: 0.7rem;">Modifica</button></a>
