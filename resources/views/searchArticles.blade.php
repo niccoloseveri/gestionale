@@ -6,14 +6,28 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><span>{{ __('Risultati Ricerca') }}</span>
-                    <a href="{{route('articles.create')}}"><button class="btn btn-success float-right">Inserisci Articolo</button></a>
-                    <br/><br/> <form class="form-inline" method="GET" action="{{route('articles.search')}}"><!--<select class="form-control col-md-2" id="searchFor" name="searchFor">
-                        <option value="1" selected>Cerca per titolo:</option>
-                        <option value="2">Cerca per topic:</option>
-                        </select>--><input type="text" name="searchQ" id="searcharticles" class="form-control col-md-8"  style="margin:0.7em;" placeholder="Cerca..."/>
-                       <div class="float-right col-md-2 row align-items-end"><input type="submit" class="btn btn-info float-right"  style="margin:0.7em" value="Cerca"></div>
-                    </form>
-                </div>
+                    <div class="row align-items-end float-right"> <a href="{{route('articles.create')}}"><button class="btn btn-success float-right ">Inserisci Articolo</button></a></div>
+                 </div>
+                 <div class="card-header">
+                        <form class="form-inline col-md-auto d-flex justify-content-center" method="GET" action="{{route('articles.search')}}"><!--<select class="form-control col-md-2" id="searchFor" name="searchFor">
+                            <option value="1" selected>Cerca per titolo:</option>
+                            <option value="2">Cerca per topic:</option>
+                            </select> -->
+                            <input type="text" name="searchQ" id="searcharticles" class="form-control col-md-auto" style="margin:0.1em;"   placeholder="Cerca..."/>
+                            <label for="dateFrom"style="margin:0.1em;" class="col-form-label text-md-right">Dal giorno:</label>
+                            <input type="date" id="dateFrom" name="dateFrom" style="margin:0.1em;" class="form-control" placeholder="yyyy-mm-dd" value="{{$from}}" required/>
+                            <label for="dateTo" class="col-form-label text-md-right" style="margin:0.1em;">Al giorno:</label>
+                            <input type="date" id="dateTo" name="dateTo"  style="margin:0.1em;" class="form-control" placeholder="yyyy-mm-dd" value="{{$to}}" required/>
+                            <label for="author" style="margin:0.1em;" class="col-form-label text-md-right">Autore:</label>
+                            <select id="author" type="text" style="margin:0.1em;" class="form-control @error('author') is-invalid @enderror" name="author">
+                                <option value="">---</option>
+                                @foreach ($users as $user)
+                                    <option value="{{$user->name}}" @if(($user->name)==$oauthor ) selected @endif >{{$user->name}}</option>
+                                @endforeach
+                            </select>
+                            <input type="submit" class=" form-control btn btn-info float-right"  style="margin:0.1em; color:white;" value="Cerca">
+                        </form>
+                    </div>
 
                 <div class="card-body table-responsive">
                     <table class="table">
@@ -33,23 +47,24 @@
                         </thead>
                         <tbody id="articles-row">
                             @foreach ($articles as $article)
-                            <tr>
-                                <th scope="row">{{$article->id}}</th>
-                                <td>{{$article->title}}</td>
-                                <td>{{$article->t_name}}</td>
-                            <td>{{$article->name}}</td>
-                                <td>{{$article->data_p->format('d/m/Y')}} {{$article->ora_p->format('H:i:s')}}</td>
-                                @can('manage-posts')
-                                <td>{{$article->created_at->format('d/m/Y H:i:s')}}</td>
-                                <td>
-                                <a href="{{ route('articles.edit',$article->id) }}"> <button type="button" class="btn btn-light float-left" style="margin-right: 0.7rem;">Modifica</button></a>
-                                <form action="{{route('articles.destroy', $article)}}" method="POST" class="float-left">
-                                    @csrf
-                                    {{method_field('DELETE')}}
-                                    <button type="submit" class="btn btn-danger float-left">Elimina</button>
-                                </form>
-                                </td>
-                                @endcan
+
+                                <tr>
+                                    <th scope="row">{{$article->id}}</th>
+                                    <td>{{$article->title}}</td>
+                                    <td>{{$article->t_name}}</td>
+                                    <td>{{$article->name}}</td>
+                                    <td>{{$article->data_p->format('d/m/Y')}} {{$article->ora_p->format('H:i:s')}}</td>
+                                    @can('manage-posts')
+                                    <td>{{$article->created_at->format('d/m/Y H:i:s')}}</td>
+                                    <td>
+                                    <a href="{{ route('articles.edit',$article->id) }}"> <button type="button" class="btn btn-light float-left" style="margin-right: 0.7rem;">Modifica</button></a>
+                                    <form action="{{route('articles.destroy', $article)}}" method="POST" class="float-left">
+                                        @csrf
+                                        {{method_field('DELETE')}}
+                                        <button type="submit" class="btn btn-danger float-left">Elimina</button>
+                                    </form>
+                                    </td>
+                                    @endcan
                                 </tr>
                             @endforeach
 
@@ -58,7 +73,7 @@
 
                 </div>
                 <div class="card-footer text-muted">
-                  </div>
+                </div>
             </div>
         </div>
     </div>
