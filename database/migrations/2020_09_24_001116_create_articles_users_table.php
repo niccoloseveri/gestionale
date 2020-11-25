@@ -15,8 +15,8 @@ class CreateArticlesUsersTable extends Migration
     {
         Schema::create('articles_user', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('articles_id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('articles_id')->unsigned();
             $table->timestamps();
         });
     }

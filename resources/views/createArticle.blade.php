@@ -20,7 +20,7 @@
                         <div class="form-group row">
                             <label for="title" class="col-md-4 col-form-label text-md-right">Titolo</label>
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}">
+                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required>
                                 @error('title')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -31,14 +31,14 @@
                         <div class="form-group row">
                             <label for="topic" class="col-md-4 col-form-label text-md-right">Argomento</label>
                             <div class="col-md-6">
-                                <select id="topic" onchange="showOther(this)" type="text" class="form-control @error('topic') is-invalid @enderror" name="topic">
+                                <select id="topic" onchange="showOther(this)" type="text" class="form-control @error('topic') is-invalid @enderror" name="topic" required>
                                 @error('topic')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                                 @foreach($topics as $topic)
-                                <option id="{{$topic->name}}" value="{{$topic->id}}">{{$topic->name}}</option>
+                                <option id="{{$topic->t_name}}" value="{{$topic->id}}">{{$topic->t_name}}</option>
                                 @endforeach
                                 <option id="other" value="other">Altro</option>
                                 </select>
@@ -49,7 +49,7 @@
                         <div class="form-group row">
                             <label for="author" class="col-md-4 col-form-label text-md-right">Autore</label>
                             <div class="col-md-6 ">
-                                <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" @if(!(Auth::user()->hasRole('admin'))) disabled @endif>
+                                <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" required @if(!(Auth::user()->hasRole('admin'))) disabled @endif>
 
                                     @foreach ($users as $user)
                                         <option value="{{$user->id}}" @if(Auth::id()==$user->id) selected @endif >{{$user->name}}</option>
@@ -62,13 +62,13 @@
                         <div class="form-group row">
                             <label for="data_p" class="col-md-4 col-form-label text-md-right">Data Pubblicazione</label>
                             <div class="col-md-6">
-                                <input type="date" name="data_p" class="form-control"/>
+                                <input type="date" name="data_p" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="ora_p" class="col-md-4 col-form-label text-md-right">Ora Pubblicazione</label>
                             <div class="col-md-6">
-                                <input type="time" name="ora_p" class="form-control"/>
+                                <input type="time" name="ora_p" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group row mb-0">

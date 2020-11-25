@@ -38,7 +38,7 @@
                                     </span>
                                 @enderror
                                 @foreach($topics as $topic)
-                                <option id="{{$topic->name}}" value="{{$topic->id}}">{{$topic->name}}</option>
+                                <option id="{{$topic->t_name}}" value="{{$topic->id}}" @if (implode(',',$articles->topic()->get()->pluck('t_name')->toArray())==$topic->t_name) selected @endif>{{$topic->t_name}} </option>
                                 @endforeach
                                 <option id="other" value="other">Altro</option>
                                 </select>

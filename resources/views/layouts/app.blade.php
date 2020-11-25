@@ -11,6 +11,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -86,5 +89,26 @@
             @yield('content')
         </main>
     </div>
+  <!--  <script type="text/javascript">
+        /*$('body').on('input', '#search-articles', function(){
+            var searchQ = $(this).val();
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("articles.search") }}',
+                dataType: 'json',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    searchQ: searchQ,
+                },
+                success:  function(res){
+                    var tableRow= '';
+                    $('#articles-row').html('');
+                    $.each(res, function(index, value){})
+                    console.log(res);
+                }
+            })
+
+        });*/
+    </script>-->
 </body>
 </html>

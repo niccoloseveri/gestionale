@@ -15,12 +15,12 @@ class TopicTableSeeder extends Seeder
     public function run()
     {
         Topic::truncate();
-        Topic::create(['name'=>'Grande Fratello VIP']);
-        Topic::create(['name'=>'Avanti un Altro']);
-        Topic::create(['name'=>"Barbara d'Urso"]);
-        Topic::create(['name'=>"Amici"]);
-        Topic::create(['name'=>"Uomini e Donne"]);
-        Topic::create(['name'=>"Temptation Island"]);
+        Topic::create(['t_name'=>'Grande Fratello VIP']);
+        Topic::create(['t_name'=>'Avanti un Altro']);
+        Topic::create(['t_name'=>"Barbara d'Urso"]);
+        Topic::create(['t_name'=>"Amici"]);
+        Topic::create(['t_name'=>"Uomini e Donne"]);
+        Topic::create(['t_name'=>"Temptation Island"]);
 
 
 

@@ -7,10 +7,14 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Carbon\Traits\Timestamp;
 use Faker\Provider\DateTime;
 use Gate;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use SebastianBergmann\Environment\Console;
 
 class HomeController extends Controller
 {
@@ -22,6 +26,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     /**
@@ -36,8 +41,9 @@ class HomeController extends Controller
         }
         else{
             $users=User::all();
-            $articles=Articles::all();
-         return view('home')->with('users',$users)->with('articles',$articles);}
+            $articles=Articles::all()->sortByDesc('created_at');
+            $today=Carbon::now()->format('Y-m-d');
+         return view('home')->with('users',$users)->with('articles',$articles)->with('today',$today);}
     }
     public function create(){
         $users=User::all();
@@ -64,7 +70,7 @@ class HomeController extends Controller
         $article->ora_p = $request->input('ora_p');
         $article->save();
         if($request->topic=='other'){
-        $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
+        $article->topic()->firstOrCreate(array('t_name'=>$request->input('o_topic')));
         }else{
         $article->topic()->sync($request->topic);
         }
@@ -95,8 +101,9 @@ class HomeController extends Controller
     public function update(Request $request, Articles $article){
 
         $article->title = $request->title;
-        $article->data_p = date($request->data_p);
-        $article->ora_p = date($request->ora_p);
+        if($request->data_p!='') $article->data_p = date($request->data_p);
+        if ($request->ora_p!='') $article->ora_p = date($request->ora_p);
+
         $article->save();
         if($request->topic=='other'){
             $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
@@ -105,6 +112,48 @@ class HomeController extends Controller
         }
         $article->users()->sync($request->author);
         return redirect()->route('articles.index');
+    }
+
+    public function search (Request $request){
+        /*$request->get('searchQ');
+        $articles= DB::table('articles')->where('articles.title','like','%'.$request->get('searchQ').'%')
+        ->leftJoin('articles_topic','articles.id','articles_topic.articles_id',)->get();
+        return json_encode($articles);*/
+
+        if($request->has('dateFrom'))
+        $from=$request->get('dateFrom');
+        //else if(empty($request->get('dateFrom'))) $from='1970-01-01';
+        if($request->has('dateTo'))
+        $to=$request->get('dateTo');
+        //else if(empty($request->get('dateTo'))) $to='2038-01-19';
+
+
+
+        $users=User::all();
+        $topics=Topic::all();
+        $articles=Articles::select('articles.id','title','t_name','name','data_p','ora_p','articles.created_at')
+
+            ->leftJoin('articles_topic', 'articles.id','=','articles_topic.articles_id')
+            ->leftJoin('topics','articles_topic.topic_id','topics.id')
+            ->leftJoin('articles_user','articles.id','articles_user.articles_id')
+            ->leftJoin('users','articles_user.user_id','users.id')
+            ->where(function (Builder $query){
+                return $query->where('t_name','like','%'.$_GET['searchQ'].'%')
+                ->orWhere('title','like','%'.$_GET['searchQ'].'%');
+
+
+
+            })
+            ->Where('name','like','%'.$_GET['author'].'%')
+            ->whereBetween(DB::raw('date(articles.created_at)'),[$from,$to])
+            ->orderBy('articles.created_at','desc')
+            ->get();
+
+
+
+        return view('searchArticles')->with('users',$users)->with('articles',$articles)->with('from',$from)->with('to',$to)->with('oauthor',$_GET['author']);
+
+
     }
 
 }

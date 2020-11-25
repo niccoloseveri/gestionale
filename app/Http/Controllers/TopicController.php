@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topic;
+use App\Models\Articles;
 use Illuminate\Http\Request;
 
 class TopicController extends Controller
@@ -17,7 +18,7 @@ class TopicController extends Controller
     }
     public function index()
     {
-        $topics = Topic::all();
+        $topics = Topic::all()->sortBy('t_name');
         return view('topics.index')->with('topics', $topics);
     }
 
@@ -40,11 +41,11 @@ class TopicController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name'=> ['required', 'max:255'],
+            't_name'=> ['required', 'max:255'],
         ]);
 
         $topic = new Topic;
-        $topic->name = $request->name;
+        $topic->t_name = $request->t_name;
         $topic->save();
         return redirect()->route('topics.index');
 
@@ -58,7 +59,9 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        //
+        $articles=Articles::all();
+        $actual_topic=Topic::where('id',$id)->get('t_name')->pluck('t_name')->first();
+        return view('topics.show')->with('topic_id',$id)->with('articles',$articles)->with('topic_name',$actual_topic);
     }
 
     /**
@@ -81,7 +84,7 @@ class TopicController extends Controller
      */
     public function update(Request $request, Topic $topic)
     {
-        $topic->name = $request->input('name');
+        $topic->t_name = $request->input('t_name');
         $topic->save();
         return redirect()->route('topics.index');
     }

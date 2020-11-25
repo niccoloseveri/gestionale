@@ -15,8 +15,8 @@ class CreateArticlesTopicTable extends Migration
     {
         Schema::create('articles_topic', function (Blueprint $table) {
             $table->id();
-            $table->integer('topic_id');
-            $table->integer('articles_id');
+            $table->bigInteger('topic_id')->unsigned();
+            $table->bigInteger('articles_id')->unsigned();
             $table->timestamps();
         });
     }
