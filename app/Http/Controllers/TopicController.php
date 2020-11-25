@@ -84,7 +84,7 @@ class TopicController extends Controller
      */
     public function update(Request $request, Topic $topic)
     {
-        $topic->name = $request->input('t_name');
+        $topic->t_name = $request->input('t_name');
         $topic->save();
         return redirect()->route('topics.index');
     }

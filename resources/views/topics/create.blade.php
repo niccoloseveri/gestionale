@@ -11,10 +11,10 @@
                     <form method="POST" action="{{route('topics.store')}}">
                         @csrf
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">Nome</label>
+                            <label for="t_name" class="col-md-4 col-form-label text-md-right">Nome</label>
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name">
-                                @error('name')
+                                <input id="t_name" type="text" class="form-control @error('t_name') is-invalid @enderror" name="t_name">
+                                @error('t_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

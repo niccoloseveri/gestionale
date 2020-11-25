@@ -30,7 +30,7 @@
 
                             <th scope="row">{{$article->id}}</th>
                             <td>{{$article->title}}</td>
-                            <td>{{implode(',',$article->topic()->get()->pluck('name')->toArray())}}</td>
+                            <td>{{implode(',',$article->topic()->get()->pluck('t_name')->toArray())}}</td>
                         <td>{{implode(',',$article->users()->get()->pluck('name')->toArray())}}</td>
                             <td>{{$article->data_p->format('d/m/Y')}} {{$article->ora_p->format('H:i:s')}}</td>
                             @can('manage-posts')

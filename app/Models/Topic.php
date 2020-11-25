@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Topic extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['t_name'];
     public function article(){
         return $this->belongsToMany('App\Models\Articles');
     }

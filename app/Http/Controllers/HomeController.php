@@ -70,7 +70,7 @@ class HomeController extends Controller
         $article->ora_p = $request->input('ora_p');
         $article->save();
         if($request->topic=='other'){
-        $article->topic()->firstOrCreate(array('name'=>$request->input('o_topic')));
+        $article->topic()->firstOrCreate(array('t_name'=>$request->input('o_topic')));
         }else{
         $article->topic()->sync($request->topic);
         }
