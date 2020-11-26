@@ -28,8 +28,9 @@
                                 <form action="{{route('topics.destroy', $topic)}}" method="POST">
                                     @csrf
                                     {{method_field('DELETE')}}
-                                    <button type="submit" class="btn btn-danger float-left">Elimina</button>
+                                    <button type="submit" class="btn btn-danger float-left" style="margin-right: 0.7rem">Elimina</button>
                                 </form>
+                                <a href="{{ route('topics.assign',$topic->id)}}"><button type="button" class="btn btn-info float-left">Assegna a utente</button></a>
                                 </td>
                                 </tr>
                             @endforeach

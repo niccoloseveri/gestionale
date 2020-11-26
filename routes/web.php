@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,9 @@ Route::get('/articles', [App\Http\Controllers\HomeController::class, 'index'])->
 Route::resource('/articles', '\App\Http\Controllers\HomeController', ['except'=>['show']]);
 Route::get('/articles/search', ['as'=>'articles.search', 'uses'=>'\App\Http\Controllers\HomeController@search']);
 
-Route::resource('/topics', '\App\Http\Controllers\TopicController');
 Auth::routes();
+Route::resource('topics', '\App\Http\Controllers\TopicController');
+Route::get('/topics/{topic}/assign', '\App\Http\Controllers\TopicController@assign')->name('topics.assign');
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('/users', 'UsersController', ['except' => ['show']]);

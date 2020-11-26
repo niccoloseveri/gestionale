@@ -59,7 +59,7 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        $articles=Articles::all();
+        $articles=Articles::all()->sortByDesc('created_at');
         $actual_topic=Topic::where('id',$id)->get('t_name')->pluck('t_name')->first();
         return view('topics.show')->with('topic_id',$id)->with('articles',$articles)->with('topic_name',$actual_topic);
     }
@@ -89,6 +89,7 @@ class TopicController extends Controller
         return redirect()->route('topics.index');
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -101,4 +102,11 @@ class TopicController extends Controller
         $topic->delete();
         return redirect()->route('topics.index');
     }
+
+
+    public function assign(Topic $topic){
+
+        return view('topics.assign')->with('topic',$topic);
+    }
+
 }
