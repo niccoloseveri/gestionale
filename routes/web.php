@@ -26,6 +26,7 @@ Route::get('/articles/search', ['as'=>'articles.search', 'uses'=>'\App\Http\Cont
 Auth::routes();
 Route::resource('topics', '\App\Http\Controllers\TopicController');
 Route::get('/topics/{topic}/assign', '\App\Http\Controllers\TopicController@assign')->name('topics.assign');
+Route::get('/topics/{topic}/detach', '\App\Http\Controllers\TopicController@detach')->name('topics.detach');
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('/users', 'UsersController', ['except' => ['show']]);

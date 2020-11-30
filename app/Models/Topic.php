@@ -12,4 +12,8 @@ class Topic extends Model
     public function article(){
         return $this->belongsToMany('App\Models\Articles');
     }
+
+    public function user(){
+        return $this->belongsToMany('\App\Models\User');
+    }
 }
