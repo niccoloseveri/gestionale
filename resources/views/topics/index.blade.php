@@ -34,7 +34,7 @@
                                 @if($topic->assigned==1)
                                 <a href="{{ route('topics.detach',$topic->id) }}"> <button type="button" class="btn btn-secondary float-left" style="margin: 0.5rem;">Rendi Pubblico</button></a>
                                 @else
-                                <a href="{{ route('topics.assign',$topic->id)}}"><button type="button" class="btn btn-secondary float-left" style="margin: 0.5rem;">Assegna a utente</button></a>
+                                <a href="{{ route('topics.assign',$topic->id)}}"><button type="button" class="btn btn-primary float-left" style="margin: 0.5rem;">Assegna a utente</button></a>
 
                                 @endif
                                 </td>

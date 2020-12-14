@@ -53,7 +53,7 @@
                                 <input class="form-control" type="text" id="o_topic" name="o_topic" style=" margin-top:0.5em; visibility: hidden"/>
                             </div>
                         </div>
-
+                        @can('manage-posts')
                         <div class="form-group row">
                             <label for="author" class="col-md-4 col-form-label text-md-right">Autore</label>
                             <div class="col-md-6 ">
@@ -65,6 +65,8 @@
                                 </select>
                             </div>
                         </div>
+                        @endcan
+
 
 
                         <div class="form-group row">

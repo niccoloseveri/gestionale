@@ -15,6 +15,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Environment\Console;
+use Orchestra\Parser\Xml\Facade as XmlParser;
+
+
+
+
+
 
 class HomeController extends Controller
 {
@@ -36,15 +42,28 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         if(!Auth::check()){
             return redirect()->route('login');
         }
         else{
-            $users=User::all();
             $articles=Articles::all()->sortByDesc('created_at');
+            /*$xmlString = file_get_contents('https://www.solodonna.it/feed');
+            $xml = simplexml_load_string($xmlString);
+            foreach($xml->children()->children() as $item){
+                foreach($articles as $article){
+                    if($item->title == $article->title){
+                        $article->published=1;
+                    }
+                }
+            }*/
+
+            $users=User::all();
             $today=Carbon::now()->format('Y-m-d');
-         return view('home')->with('users',$users)->with('articles',$articles)->with('today',$today);}
-    }
+            return view('home')->with('users',$users)->with('articles',$articles)->with('today',$today);
+        }
+}
+
     public function create(){
         $users=User::all();
         $topics=Topic::all();
