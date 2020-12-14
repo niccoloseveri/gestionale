@@ -38,7 +38,16 @@
                                     </span>
                                 @enderror
                                 @foreach($topics as $topic)
+                                @if(implode(',',$topic->user()->get()->pluck('id')->toArray())==Auth::id())
                                 <option id="{{$topic->t_name}}" value="{{$topic->id}}" @if (implode(',',$articles->topic()->get()->pluck('t_name')->toArray())==$topic->t_name) selected @endif>{{$topic->t_name}} </option>
+
+                                @endif
+                                @endforeach
+                                <option disabled>------------</option>
+                                @foreach($topics as $topic)
+                                @if ($topic->assigned==0)
+                                <option id="{{$topic->t_name}}" value="{{$topic->id}}" @if (implode(',',$articles->topic()->get()->pluck('t_name')->toArray())==$topic->t_name) selected @endif>{{$topic->t_name}} </option>
+                                @endif
                                 @endforeach
                                 <option id="other" value="other">Altro</option>
                                 </select>

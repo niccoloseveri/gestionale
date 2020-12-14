@@ -17,6 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             //$table->string('topic');
+            $table->boolean('published')->default(false);
             $table->date('data_p');
             $table->time('ora_p');
             $table->timestamps();

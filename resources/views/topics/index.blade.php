@@ -24,12 +24,19 @@
                                 <td><a href="{{route('topics.show',$topic->id)}}">{{$topic->t_name}}</a></td>
 
                                 <td>
-                                <a href="{{ route('topics.edit',$topic->id) }}"> <button type="button" class="btn btn-light float-left" style="margin-right: 0.7rem;">Modifica</button></a>
+                                <a href="{{ route('topics.edit',$topic->id) }}"> <button type="button" class="btn btn-light float-left" style="margin: 0.5rem;">Modifica</button></a>
+
                                 <form action="{{route('topics.destroy', $topic)}}" method="POST">
                                     @csrf
                                     {{method_field('DELETE')}}
-                                    <button type="submit" class="btn btn-danger float-left">Elimina</button>
+                                    <button type="submit" class="btn btn-danger float-left" style="margin: 0.5rem">Elimina</button>
                                 </form>
+                                @if($topic->assigned==1)
+                                <a href="{{ route('topics.detach',$topic->id) }}"> <button type="button" class="btn btn-secondary float-left" style="margin: 0.5rem;">Rendi Pubblico</button></a>
+                                @else
+                                <a href="{{ route('topics.assign',$topic->id)}}"><button type="button" class="btn btn-primary float-left" style="margin: 0.5rem;">Assegna a utente</button></a>
+
+                                @endif
                                 </td>
                                 </tr>
                             @endforeach

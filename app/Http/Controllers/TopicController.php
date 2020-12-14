@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Topic;
 use App\Models\Articles;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TopicController extends Controller
@@ -46,6 +47,10 @@ class TopicController extends Controller
 
         $topic = new Topic;
         $topic->t_name = $request->t_name;
+        if($request->author!=''){
+            $topic->assigned = 1;
+            $topic->user()->sync($request->author);
+        }
         $topic->save();
         return redirect()->route('topics.index');
 
@@ -59,7 +64,7 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        $articles=Articles::all();
+        $articles=Articles::all()->sortByDesc('created_at');
         $actual_topic=Topic::where('id',$id)->get('t_name')->pluck('t_name')->first();
         return view('topics.show')->with('topic_id',$id)->with('articles',$articles)->with('topic_name',$actual_topic);
     }
@@ -72,7 +77,8 @@ class TopicController extends Controller
      */
     public function edit(Topic $topic)
     {
-        return view('topics.edit')->with('topic',$topic);
+        $users=User::all();
+        return view('topics.edit')->with('topic',$topic)->with('users',$users);
     }
 
     /**
@@ -84,10 +90,17 @@ class TopicController extends Controller
      */
     public function update(Request $request, Topic $topic)
     {
-        $topic->t_name = $request->input('t_name');
+        if($request->input('t_name')!=""){
+            $topic->t_name = $request->input('t_name');
+        }
+        if($request->author!='no'){
+            $topic->assigned = 1;
+            $topic->user()->sync($request->author);
+        }
         $topic->save();
         return redirect()->route('topics.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -101,4 +114,21 @@ class TopicController extends Controller
         $topic->delete();
         return redirect()->route('topics.index');
     }
+
+
+    public function assign(Topic $topic){
+        $users=User::all();
+        return view('topics.assign')->with('topic',$topic)->with('users',$users);
+    }
+
+
+    //-------------------------
+
+    public function detach(Topic $topic){
+        $topic->user()->detach();
+        $topic->assigned = 0;
+        $topic->save();
+        return redirect()->route('topics.index');
+    }
+
 }

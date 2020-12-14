@@ -69,3 +69,24 @@
     </div>
 </div>
 @endsection
+
+
+
+
+
+////////EDIT TOPIC////////
+
+ @if(Auth::user()->hasRole('admin'))
+                        <div class="form-group row">
+                            <label for='user'class="col-md-4 col-form-label text-md-right" >Assegna a</label>
+                            <div class="col-md-6 ">
+                                <select id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" >
+                                    <option value="no" selected>Nessuno (pubblico)</option>
+                                    @foreach ($users as $user)
+
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif

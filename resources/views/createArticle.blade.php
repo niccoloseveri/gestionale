@@ -38,14 +38,22 @@
                                     </span>
                                 @enderror
                                 @foreach($topics as $topic)
+                                @if(implode(',',$topic->user()->get()->pluck('id')->toArray())==Auth::id())
                                 <option id="{{$topic->t_name}}" value="{{$topic->id}}">{{$topic->t_name}}</option>
+                                @endif
+                                @endforeach
+                                <option disabled>------------</option>
+                                @foreach($topics as $topic)
+                                @if($topic->assigned==0)
+                                <option id="{{$topic->t_name}}" value="{{$topic->id}}">{{$topic->t_name}}</option>
+                                @endif
                                 @endforeach
                                 <option id="other" value="other">Altro</option>
                                 </select>
                                 <input class="form-control" type="text" id="o_topic" name="o_topic" style=" margin-top:0.5em; visibility: hidden"/>
                             </div>
                         </div>
-
+                        @can('manage-posts')
                         <div class="form-group row">
                             <label for="author" class="col-md-4 col-form-label text-md-right">Autore</label>
                             <div class="col-md-6 ">
@@ -57,6 +65,8 @@
                                 </select>
                             </div>
                         </div>
+                        @endcan
+
 
 
                         <div class="form-group row">
